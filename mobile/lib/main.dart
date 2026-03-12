@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Mobile HBC',
       home: const HomeScreen(),
+      debugShowCheckedModeBanner: false,
       );
   } 
 }
