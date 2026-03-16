@@ -14,8 +14,10 @@ class HomeScreen extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.person, color: Colors.white),
+            onPressed: () {
+              Navigator.pushNamed(context, "/profile");
+            },
+            icon: const Icon(Icons.person, color: Colors.white, size: 30),
           ),
         ],
         backgroundColor: Colors.pink,
