@@ -8,8 +8,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Harapan Bangsa Company", style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blue,
+        title: const Text(
+          "Harapan Bangsa Company",
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.person, color: Colors.white),
+          ),
+        ],
+        backgroundColor: Colors.pink,
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton(
@@ -69,6 +78,28 @@ class HomeScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
+            const SizedBox(height: 16),
+
+            Row(
+              children: [
+                _statCard("2", "Leave", Colors.blue),
+                _statCard("5", "Reimbursement", Colors.purple),
+              ],
+            ),
+
+            Row(children: [_statCard("Rp XXX,00", "Wage", Colors.red)]),
+
+            const SizedBox(height: 16),
+
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Attendance History",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+
+            const SizedBox(height: 10),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
@@ -83,40 +114,27 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-
-            const SizedBox(height: 16),
-
-            Row(
-              children: [
-                _statCard("2", "Early Leave", Colors.blue),
-                _statCard("5", "Absents", Colors.purple),
-              ],
-            ),
-
-            Row(
-              children: [
-                _statCard("0", "Late in", Colors.red),
-                _statCard("5", "Leaves", Colors.orange),
-              ],
-            ),
-
-            const SizedBox(height: 16),
+            const SizedBox(height: 10),
 
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-              borderOnForeground: true,
-              color: Colors.white,
-              child: Column(
-                children: attendanceData.map((data) {
-                  return _attendanceCard(
-                    date: data["date"]!,
-                    checkin: data["checkin"]!,
-                    checkout: data["checkout"]!,
-                    total: data["total"]!,
-                  );
-                }).toList(),
+              child: SizedBox(
+                height: 300, // tinggi card supaya bisa discroll
+                child: ListView.builder(
+                  itemCount: attendanceData.length,
+                  itemBuilder: (context, index) {
+                    final data = attendanceData[index];
+
+                    return _attendanceCard(
+                      date: data["date"]!,
+                      checkin: data["checkin"]!,
+                      checkout: data["checkout"]!,
+                      total: data["total"]!,
+                    );
+                  },
+                ),
               ),
             ),
           ],
@@ -174,14 +192,19 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-/// PAGE QR SCANNER
 class ScanQRPage extends StatelessWidget {
   const ScanQRPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Scan QR Attendance")),
+      appBar: AppBar(
+        title: const Text(
+          "Scan QR Attendance",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.pink,
+      ),
       body: MobileScanner(
         onDetect: (capture) {
           final List<Barcode> barcodes = capture.barcodes;
