@@ -120,7 +120,7 @@ class HomeScreen extends StatelessWidget {
                   Colors.blue,
                   onTap: () {
                     print("Leave diklik");
-                    // Navigator.pushNamed(context, "/leave");
+                    Navigator.pushNamed(context, "/leave");
                   },
                 ),
                 _statCard(

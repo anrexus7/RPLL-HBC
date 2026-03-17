@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/screen/home/home_screen.dart';
+import 'package:mobile/screen/leave/leave_screen.dart';
 import 'package:mobile/screen/profil/profile_screen.dart';
 import 'package:mobile/static/navigation_route.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes:{
         NavigationRoute.homeRoute.name: (context) => const HomeScreen(),
         NavigationRoute.profile.name: (context) => const ProfileScreen(),
+        NavigationRoute.leave.name: (context) => const LeaveScreen(),
       }
       );
   } 
