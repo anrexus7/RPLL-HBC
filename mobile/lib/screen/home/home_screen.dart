@@ -19,6 +19,13 @@ class HomeScreen extends StatelessWidget {
             },
             icon: const Icon(Icons.person, color: Colors.white, size: 30),
           ),
+          IconButton(
+            onPressed: () {
+              print("Notifikasi");
+              // Navigator.pushNamed(context, "/profile");
+            },
+            icon: const Icon(Icons.mail, color: Colors.white, size: 30),
+          ),
         ],
         backgroundColor: Colors.pink,
       ),
@@ -75,6 +82,29 @@ class HomeScreen extends StatelessWidget {
         "total": "7h 50m",
       },
     ];
+
+    String? selectedMonth;
+    String? selectedYear;
+
+    final List<String> months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    final List<String> years = List.generate(
+      10,
+      (index) => (2020 + index).toString(),
+    );
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -84,12 +114,40 @@ class HomeScreen extends StatelessWidget {
 
             Row(
               children: [
-                _statCard("2", "Leave", Colors.blue),
-                _statCard("5", "Reimbursement", Colors.purple),
+                _statCard(
+                  "2",
+                  "Leave",
+                  Colors.blue,
+                  onTap: () {
+                    print("Leave diklik");
+                    // Navigator.pushNamed(context, "/leave");
+                  },
+                ),
+                _statCard(
+                  "5",
+                  "Reimbursement",
+                  Colors.purple,
+                  onTap: () {
+                    print("Reimbursement diklik");
+                    // Navigator.pushNamed(context, "/reimbursement");
+                  },
+                ),
               ],
             ),
 
-            Row(children: [_statCard("Rp XXX,00", "Wage", Colors.red)]),
+            Row(
+              children: [
+                _statCard(
+                  "Rp XXX,00",
+                  "Wage",
+                  Colors.red,
+                  onTap: () {
+                    print("Reimbursement diklik");
+                    // Navigator.pushNamed(context, "/reimbursement");
+                  },
+                ),
+              ],
+            ),
 
             const SizedBox(height: 16),
 
@@ -102,20 +160,53 @@ class HomeScreen extends StatelessWidget {
             ),
 
             const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("January 2024"),
-                  Icon(Icons.keyboard_arrow_down),
-                ],
-              ),
+
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: selectedMonth,
+                    decoration: InputDecoration(
+                      labelText: "Month",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    items: months.map((month) {
+                      return DropdownMenuItem(value: month, child: Text(month));
+                    }).toList(),
+                    onChanged: (value) {
+                      // setState(() {
+                      //   selectedMonth = value;
+                      // });
+                    },
+                  ),
+                ),
+
+                const SizedBox(width: 12), // jarak antar dropdown
+
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    value: selectedYear,
+                    decoration: InputDecoration(
+                      labelText: "Year",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    items: years.map((year) {
+                      return DropdownMenuItem(value: year, child: Text(year));
+                    }).toList(),
+                    onChanged: (value) {
+                      // setState(() {
+                      //   selectedYear = value;
+                      // });
+                    },
+                  ),
+                ),
+              ],
             ),
+
             const SizedBox(height: 10),
 
             Card(
@@ -145,27 +236,36 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _statCard(String number, String title, Color color) {
+  Widget _statCard(
+    String number,
+    String title,
+    Color color, {
+    VoidCallback? onTap,
+  }) {
     return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(6),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          border: Border.all(color: color),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Column(
-          children: [
-            Text(
-              number,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: color,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Container(
+          margin: const EdgeInsets.all(6),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            border: Border.all(color: color),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: [
+              Text(
+                number,
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
               ),
-            ),
-            Text(title),
-          ],
+              Text(title),
+            ],
+          ),
         ),
       ),
     );
