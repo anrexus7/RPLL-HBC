@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
           "Harapan Bangsa Company",
           style: TextStyle(color: Colors.white),
         ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {
@@ -34,10 +35,7 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         child: const Icon(Icons.qr_code_scanner),
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ScanQRPage()),
-          );
+          Navigator.pushNamed(context, "/scanner");
         },
       ),
     );
@@ -119,7 +117,6 @@ class HomeScreen extends StatelessWidget {
                   "Leave",
                   Colors.blue,
                   onTap: () {
-                    print("Leave diklik");
                     Navigator.pushNamed(context, "/leave");
                   },
                 ),
@@ -129,7 +126,7 @@ class HomeScreen extends StatelessWidget {
                   Colors.purple,
                   onTap: () {
                     print("Reimbursement diklik");
-                    // Navigator.pushNamed(context, "/reimbursement");
+                    Navigator.pushNamed(context, "/reimbursement");
                   },
                 ),
               ],
@@ -142,7 +139,7 @@ class HomeScreen extends StatelessWidget {
                   "Wage",
                   Colors.red,
                   onTap: () {
-                    print("Reimbursement diklik");
+                    print("Wage diklik");
                     // Navigator.pushNamed(context, "/reimbursement");
                   },
                 ),
@@ -289,37 +286,6 @@ class HomeScreen extends StatelessWidget {
             Text("Total: $total"),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class ScanQRPage extends StatelessWidget {
-  const ScanQRPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          "Scan QR Attendance",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Colors.pink,
-      ),
-      body: MobileScanner(
-        onDetect: (capture) {
-          final List<Barcode> barcodes = capture.barcodes;
-          for (final barcode in barcodes) {
-            final String? code = barcode.displayValue;
-
-            if (code != null) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text("QR Code: $code")));
-            }
-          }
-        },
       ),
     );
   }

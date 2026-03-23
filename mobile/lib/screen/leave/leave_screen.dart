@@ -57,7 +57,6 @@ class _LeaveScreenState extends State<LeaveScreen> {
       ),
       body: Column(
         children: [
-          /// 📅 KALENDER
           TableCalendar(
             focusedDay: focusedDay,
             firstDay: DateTime(2020),
@@ -70,11 +69,16 @@ class _LeaveScreenState extends State<LeaveScreen> {
               });
             },
             eventLoader: (day) => getCutiByDate(day),
+            
+            headerStyle: const HeaderStyle(
+              formatButtonVisible: false,
+            ),
+
           ),
 
           const SizedBox(height: 10),
 
-          /// 📌 LIST CUTI
+//LIST CUTI
           Expanded(
             child: ListView.builder(
               itemCount: getCutiByDate(selectedDay ?? DateTime.now()).length,
@@ -125,7 +129,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
             padding: const EdgeInsets.all(10),
             child: ElevatedButton(
               onPressed: () => _showForm(context),
-              child: const Text("Ajukan Cuti"),
+              child: const Text("Apply for Leave"),
             ),
           ),
         ],
@@ -153,7 +157,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
             children: [
               /// TITLE
               const Text(
-                "Ajukan Cuti",
+                "Apply for Leave",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
 
@@ -163,7 +167,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
               TextField(
                 controller: keteranganController,
                 decoration: InputDecoration(
-                  labelText: "Keterangan",
+                  labelText: "Description",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -189,7 +193,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                       },
                       child: Text(
                         startDate == null
-                            ? "Tanggal Mulai"
+                            ? "Start Date"
                             : startDate!.toString().substring(0, 10),
                       ),
                     ),
@@ -208,7 +212,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                       },
                       child: Text(
                         endDate == null
-                            ? "Tanggal Akhir"
+                            ? "End Date"
                             : endDate!.toString().substring(0, 10),
                       ),
                     ),
@@ -231,7 +235,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                         startDate == null ||
                         endDate == null) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Isi semua field!")),
+                        const SnackBar(content: Text("Fill In All Fields!")),
                       );
                       return;
                     }
@@ -294,7 +298,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
             children: [
               Icon(Icons.info, color: statusColor),
               const SizedBox(width: 8),
-              const Text("Status Cuti"),
+              const Text("Leave Status"),
             ],
           ),
           content: Column(
@@ -313,7 +317,7 @@ class _LeaveScreenState extends State<LeaveScreen> {
                 ),
               ),
               const SizedBox(height: 5),
-              Text("Disetujui oleh: ${cuti.disetujuiOleh}"),
+              Text("Approved by: ${cuti.disetujuiOleh}"),
             ],
           ),
           actions: [
