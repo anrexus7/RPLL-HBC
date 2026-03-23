@@ -268,25 +268,36 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _attendanceCard({
-    required String date,
-    required String checkin,
-    required String checkout,
-    required String total,
-  }) {
-    return Card(
-      child: ListTile(
-        leading: CircleAvatar(child: Text(date.split(" ")[0])),
-        title: Text(date),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text("Check in: $checkin"),
-            Text("Check out: $checkout"),
-            Text("Total: $total"),
-          ],
-        ),
+Widget _attendanceCard({
+  required String date,
+  required String checkin,
+  required String checkout,
+  required String total,
+}) {
+  return Card(
+    child: ListTile(
+      leading: CircleAvatar(child: Text(date.split(" ")[0])),
+      title: Text(date),
+
+      // 🔥 GANTI INI
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 5),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(child: Text("Check in: $checkin")),
+              Expanded(child: Text("Check out: $checkout")),
+            ],
+          ),
+
+          const SizedBox(height: 5),
+
+          Text("Total: $total"),
+        ],
       ),
-    );
-  }
-}
+    ),
+  );
+}}
