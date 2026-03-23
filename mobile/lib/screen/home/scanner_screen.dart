@@ -19,9 +19,8 @@ class _ScannerScreenState extends State<ScannerScreen> {
   void initState() {
     super.initState();
 
-    controller.start(); // 🔥 pastiin kamera nyala
+    controller.start(); 
 
-    // 🔁 refresh data tiap 10 detik
     timer = Timer.periodic(const Duration(seconds: 10), (t) {
       _refreshData();
     });
@@ -30,8 +29,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
   void _refreshData() {
     print("Refresh data dari backend...");
 
-    // 👉 contoh:
-    // panggil API absensi / update status
   }
 
   @override
@@ -55,7 +52,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       body: MobileScanner(
         controller: controller,
         onDetect: (capture) {
-          if (capture.barcodes.isEmpty) return; // 🔥 penting banget
+          if (capture.barcodes.isEmpty) return; 
 
           final barcode = capture.barcodes.first;
           final String? code = barcode.displayValue;
