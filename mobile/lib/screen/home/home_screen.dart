@@ -81,9 +81,6 @@ class HomeScreen extends StatelessWidget {
       },
     ];
 
-    String? selectedMonth;
-    String? selectedYear;
-
     final List<String> months = [
       "January",
       "February",
@@ -103,132 +100,113 @@ class HomeScreen extends StatelessWidget {
       10,
       (index) => (2020 + index).toString(),
     );
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const SizedBox(height: 16),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          const SizedBox(height: 16),
 
-            Row(
-              children: [
-                _statCard(
-                  "2",
-                  "Leave",
-                  Colors.blue,
-                  onTap: () {
-                    Navigator.pushNamed(context, "/leave");
-                  },
-                ),
-                _statCard(
-                  "5",
-                  "Reimbursement",
-                  Colors.purple,
-                  onTap: () {
-                    print("Reimbursement diklik");
-                    Navigator.pushNamed(context, "/reimbursement");
-                  },
-                ),
-              ],
-            ),
-
-            Row(
-              children: [
-                _statCard(
-                  "Rp XXX,00",
-                  "Wage",
-                  Colors.red,
-                  onTap: () {
-                    print("Wage diklik");
-                    // Navigator.pushNamed(context, "/reimbursement");
-                  },
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 16),
-
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Attendance History",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Row(
+            children: [
+              _statCard(
+                "2",
+                "Leave",
+                Colors.blue,
+                onTap: () {
+                  Navigator.pushNamed(context, "/leave");
+                },
               ),
+              _statCard(
+                "5",
+                "Reimbursement",
+                Colors.purple,
+                onTap: () {
+                  Navigator.pushNamed(context, "/reimbursement");
+                },
+              ),
+            ],
+          ),
+
+          Row(
+            children: [
+              _statCard(
+                "Rp XXX,00",
+                "Wage",
+                Colors.red,
+                onTap: () {
+                  Navigator.pushNamed(context, "/wage");
+                },
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 16),
+
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              "Attendance History",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
+          ),
 
-            const SizedBox(height: 10),
+          const SizedBox(height: 10),
 
-            Row(
-              children: [
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: selectedMonth,
-                    decoration: InputDecoration(
-                      labelText: "Month",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+          Row(
+            children: [
+              Expanded(
+                child: DropdownButtonFormField<String>(
+                  value: null,
+                  decoration: InputDecoration(
+                    labelText: "Month",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    items: months.map((month) {
-                      return DropdownMenuItem(value: month, child: Text(month));
-                    }).toList(),
-                    onChanged: (value) {
-                      // setState(() {
-                      //   selectedMonth = value;
-                      // });
-                    },
                   ),
+                  items: months.map((month) {
+                    return DropdownMenuItem(value: month, child: Text(month));
+                  }).toList(),
+                  onChanged: (_) {},
                 ),
-
-                const SizedBox(width: 12), // jarak antar dropdown
-
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: selectedYear,
-                    decoration: InputDecoration(
-                      labelText: "Year",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: DropdownButtonFormField<String>(
+                  value: null,
+                  decoration: InputDecoration(
+                    labelText: "Year",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    items: years.map((year) {
-                      return DropdownMenuItem(value: year, child: Text(year));
-                    }).toList(),
-                    onChanged: (value) {
-                      // setState(() {
-                      //   selectedYear = value;
-                      // });
-                    },
                   ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: SizedBox(
-                height: 300, // tinggi card supaya bisa discroll
-                child: ListView.builder(
-                  itemCount: attendanceData.length,
-                  itemBuilder: (context, index) {
-                    final data = attendanceData[index];
-
-                    return _attendanceCard(
-                      date: data["date"]!,
-                      checkin: data["checkin"]!,
-                      checkout: data["checkout"]!,
-                      total: data["total"]!,
-                    );
-                  },
+                  items: years.map((year) {
+                    return DropdownMenuItem(value: year, child: Text(year));
+                  }).toList(),
+                  onChanged: (_) {},
                 ),
               ),
+            ],
+          ),
+
+          const SizedBox(height: 10),
+
+          // 🔥 INI YANG BENAR
+          Expanded(
+            child: ListView.builder(
+              itemCount: attendanceData.length,
+              itemBuilder: (context, index) {
+                final data = attendanceData[index];
+
+                return _attendanceCard(
+                  date: data["date"]!,
+                  checkin: data["checkin"]!,
+                  checkout: data["checkout"]!,
+                  total: data["total"]!,
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -268,36 +246,44 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-Widget _attendanceCard({
-  required String date,
-  required String checkin,
-  required String checkout,
-  required String total,
-}) {
-  return Card(
-    child: ListTile(
-      leading: CircleAvatar(child: Text(date.split(" ")[0])),
-      title: Text(date),
+  Widget _attendanceCard({
+    required String date,
+    required String checkin,
+    required String checkout,
+    required String total,
+  }) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircleAvatar(child: Text(date.split(" ")[0])),
 
-      // 🔥 GANTI INI
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 5),
+            const SizedBox(width: 12),
 
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(child: Text("Check in: $checkin")),
-              Expanded(child: Text("Check out: $checkout")),
-            ],
-          ),
+            // 🔥 Konten kanan
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    date,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
 
-          const SizedBox(height: 5),
+                  const SizedBox(height: 6),
 
-          Text("Total: $total"),
-        ],
+                  Text("Check in: $checkin"),
+                  Text("Check out: $checkout"),
+                  Text("Total: $total"),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}}
+    );
+  }
+}
