@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "./API",
+    "rootDir": ".",
     "outDir": "./dist",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -13,11 +13,8 @@
     "declaration": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["node_modules/*"]
-    }
+    "baseUrl": "."
   },
-  "include": ["API/**/*"],
+  "include": ["API/**/*", "models/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "migrations", "config/config.js"]
 }
